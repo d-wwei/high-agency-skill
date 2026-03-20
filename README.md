@@ -6,6 +6,8 @@
 
 ### A verification-first execution protocol for coding agents
 
+**🇺🇸 English** | **[🇨🇳 中文](README.zh-CN.md)**
+
 `high-agency-skill` is a lightweight operating protocol for coding agents. It does not add new tools or new model weights. It improves how an agent uses the tools it already has:
 
 - less guessing
@@ -35,6 +37,25 @@ In practice, that usually means:
 - more assumption checking
 - more build/test/curl/manual verification
 - fewer shallow fixes
+
+## How The Protocol Runs
+
+```mermaid
+flowchart LR
+    A["Task starts"] --> B["Try the first reasonable approach"]
+    B --> C{"Worked and verified?"}
+    C -- "Yes" --> D["Check nearby patterns and edge cases"]
+    D --> E["Report with evidence"]
+    C -- "No" --> F["Identify the stuck pattern"]
+    F --> G["Read failure signals carefully"]
+    G --> H["Search and read raw material"]
+    H --> I["Verify assumptions"]
+    I --> J["Invert the current hypothesis"]
+    J --> K["Choose a fundamentally different approach"]
+    K --> L{"Still blocked after escalation?"}
+    L -- "No" --> B
+    L -- "Yes" --> M["Produce a structured handoff"]
+```
 
 ## 3-Minute Quick Start
 
@@ -79,6 +100,17 @@ Once active, the agent should:
 - verify before claiming completion
 - switch approaches after repeated failure
 - produce a more useful handoff if the task is genuinely blocked
+
+## Before / After Agent Behavior
+
+| Situation | Before | After |
+|----------|--------|-------|
+| First error appears | Guesses quickly from memory | Reads the failure signal, checks context, and verifies assumptions |
+| Second failed attempt | Starts hinting that the task may be blocked | Switches to a fundamentally different approach |
+| Missing information | Asks the user early | Investigates first and asks only for the irreducible unknown |
+| Code changed | Says "done" after editing | Runs the smallest relevant verification path before claiming completion |
+| One bug fixed | Stops at the visible symptom | Checks for sibling issues and broader failure patterns |
+| Real blocker remains | Gives a vague failure message | Produces a structured, high-information handoff |
 
 ## Why It Works
 
