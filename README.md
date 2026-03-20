@@ -1,9 +1,5 @@
 # high-agency-skill
 
-<p align="center">
-  <img src="assets/pua-skill-lockup.svg" alt="High-Agency Delivery Protocol" width="320">
-</p>
-
 ### A verification-first execution protocol for coding agents
 
 **🇺🇸 English** | **[🇨🇳 中文](README.zh-CN.md)**
@@ -58,6 +54,20 @@ flowchart LR
 ```
 
 ## 3-Minute Quick Start
+
+### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills/high-agency
+curl -o ~/.claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
+
+Then in Claude Code, load:
+
+```text
+$high-agency
+```
 
 ### Codex CLI
 
@@ -352,10 +362,10 @@ The result looks like better performance, but the underlying change is that the 
 The main skill lives here:
 
 - `codex/high-agency/SKILL.md`
+- `skills/high-agency/SKILL.md` for Claude Code and other SKILL.md-based consumers
 
 Equivalent files are also included for:
 
-- `skills/high-agency/SKILL.md`
 - `codebuddy/high-agency/SKILL.md`
 - `cursor/rules/high-agency.mdc`
 - `kiro/steering/high-agency.md`
@@ -365,6 +375,22 @@ Equivalent files are also included for:
 - `commands/high-agency.md`
 
 ## Installation
+
+### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills/high-agency
+curl -o ~/.claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
+
+Project-level install:
+
+```bash
+mkdir -p .claude/skills/high-agency
+curl -o .claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
 
 ### OpenAI Codex CLI
 

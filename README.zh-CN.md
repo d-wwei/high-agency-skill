@@ -1,9 +1,5 @@
 # high-agency-skill
 
-<p align="center">
-  <img src="assets/pua-skill-lockup.svg" alt="High-Agency Delivery Protocol" width="320">
-</p>
-
 ### 一个面向 Coding Agent 的“验证优先”执行协议
 
 **[🇺🇸 English](README.md)** | **🇨🇳 中文**
@@ -62,6 +58,20 @@ flowchart LR
 ```
 
 ## 3 分钟快速开始
+
+### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills/high-agency
+curl -o ~/.claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
+
+然后在 Claude Code 里加载：
+
+```text
+$high-agency
+```
 
 ### Codex CLI
 
@@ -331,10 +341,10 @@ skill 里的 `Recovery Method` 本质上就是一个标准化 debug pipeline：
 The main skill lives here:
 
 - `codex/high-agency/SKILL.md`
+- `skills/high-agency/SKILL.md`，可用于 Claude Code 和其他支持 SKILL.md 的工具
 
 Equivalent files are also included for:
 
-- `skills/high-agency/SKILL.md`
 - `codebuddy/high-agency/SKILL.md`
 - `cursor/rules/high-agency.mdc`
 - `kiro/steering/high-agency.md`
@@ -344,6 +354,22 @@ Equivalent files are also included for:
 - `commands/high-agency.md`
 
 ## 安装
+
+### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills/high-agency
+curl -o ~/.claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
+
+项目级安装：
+
+```bash
+mkdir -p .claude/skills/high-agency
+curl -o .claude/skills/high-agency/SKILL.md \
+  https://raw.githubusercontent.com/d-wwei/high-agency-skill/main/skills/high-agency/SKILL.md
+```
 
 ### OpenAI Codex CLI
 
