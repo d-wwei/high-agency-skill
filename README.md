@@ -15,7 +15,7 @@
 - better handoff quality when a task is genuinely blocked
 - better continuity for multi-step work
 
-This repo packages three layers into one practical system:
+This repo packages four layers into one practical system:
 
 - `high-agency` as the behavior core
 - `better-work` as the product and command surface
@@ -105,6 +105,25 @@ See:
 - [templates/ROUND.md](templates/ROUND.md)
 - [templates/round-state.json](templates/round-state.json)
 
+## Auto vs Explicit Activation
+
+There are now two ways to enter round mode:
+
+- automatic activation through `/better-work` when the task is clearly complex enough
+- explicit activation through `/better-work rounds` when you want to force round mode immediately
+
+Use plain `/better-work` when:
+
+- the task might still be small enough for one bounded pass
+- you want Better Work to decide whether extra structure is warranted
+
+Use `/better-work rounds` when:
+
+- the task is already obviously multi-stage
+- you want every step to run with round-level PDCA and quality gates
+- you want structured round state from the start
+- you want to prevent the task from drifting into one long linear thread
+
 ## Commands
 
 Use `/better-work` as the normalized command language in docs and examples. Depending on the tool, that may map to:
@@ -145,6 +164,32 @@ Bias toward intake, success criteria, task slicing, and whether workflow files a
 
 Bias toward continuing from the current task, plan, or state without losing context.
 
+## Recommended Command Patterns
+
+### Small or Medium Task
+
+```text
+/better-work Fix this failing API test and verify the result.
+```
+
+### Complex Multi-Round Task
+
+```text
+/better-work rounds Fix this cross-service production bug in bounded rounds.
+```
+
+### Cross-Session Research
+
+```text
+/better-work rounds Research this unfamiliar codebase and leave resumable round state.
+```
+
+### Medium Feature With Stage Gates
+
+```text
+/better-work rounds Build this feature in minimal slices with verification after each round.
+```
+
 ## Lightweight Templates
 
 The templates are intentionally short so they can survive real usage:
@@ -159,6 +204,14 @@ The templates are intentionally short so they can survive real usage:
 Recommended explicit command for complex tasks:
 
 - `/better-work rounds`
+
+When explicit round mode is active, the most useful state files are:
+
+- `TASK.md` for overall goal and constraints
+- `PLAN.md` for the broader path
+- `STATE.md` for current progress
+- `ROUND.md` for the current bounded round
+- `round-state.json` for machine-friendly persistence and handoff
 
 ## 3-Minute Quick Start
 
@@ -186,12 +239,20 @@ curl -o ~/.codex/skills/better-work/SKILL.md \
 mkdir -p ~/.codex/prompts
 curl -o ~/.codex/prompts/better-work.md \
   https://raw.githubusercontent.com/d-wwei/better-work-skill/main/commands/better-work.md
+curl -o ~/.codex/prompts/better-work-rounds.md \
+  https://raw.githubusercontent.com/d-wwei/better-work-skill/main/commands/better-work-rounds.md
 ```
 
 Then start a conversation and type:
 
 ```text
 $better-work
+```
+
+For explicit round mode:
+
+```text
+/better-work rounds
 ```
 
 ### Cursor
@@ -218,6 +279,14 @@ Once active, the agent should:
 - switch approaches after repeated failure
 - write compact state only when it adds leverage
 - produce a more useful handoff if the task is genuinely blocked
+
+When `round-based-execution` is active, the agent should also:
+
+- select one round type at a time
+- define one primary objective per round
+- enforce PDCA and a quality gate before moving on
+- track assumptions, evidence grade, dependencies, and carry-forward items
+- leave round-level handoff state instead of relying on chat memory
 
 ## Why This Version Is Better
 
