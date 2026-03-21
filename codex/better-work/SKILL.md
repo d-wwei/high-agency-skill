@@ -15,6 +15,7 @@ Better Work combines three ideas:
 For complex tasks it can also activate a conditional protocol module:
 
 4. `round-based-execution` for multi-round PDCA work with quality gates
+5. `wave-based-delivery` for project-scale sequencing across multiple delivery waves
 
 The goal is simple:
 
@@ -67,6 +68,8 @@ Multi-step tasks should not rely on memory alone.
 When the work spans multiple files, systems, or sessions, move from implicit memory to lightweight written state.
 
 For tasks that are materially complex, long-running, high-risk, or multi-agent, activate `subskills/round-based-execution.md` instead of trying to push one linear stream to completion.
+
+For tasks that are project-scale, staged, integration-heavy, or likely to span multiple sessions and increments, activate `subskills/wave-based-delivery.md` to decide what the current delivery wave is before executing it.
 
 ## Execution Posture
 
@@ -126,6 +129,14 @@ When `round-based-execution` is active, also use:
 - `ROUND.md` -> per-round PDCA state, evidence, gate result, next round
 - `round-state.json` -> machine-friendly round handoff/state persistence
 
+When `wave-based-delivery` is active, also use:
+
+- `MAP.md` -> project map of modules, services, interfaces, and unknowns
+- `WAVE.md` -> current wave charter, boundary, gate, and next-wave candidates
+- `DECISIONS.md` -> durable decision log across waves
+- `RISKS.md` -> risk register across waves
+- `wave-state.json` -> machine-friendly wave handoff and sequencing state
+
 Keep them short. They are execution aids, not long-form product docs.
 
 ### The Four Phases
@@ -181,16 +192,24 @@ The Better Work command surface supports these modes:
 
 - `better-work` -> full protocol
 - `better-work rounds` -> explicit round-based execution mode for complex work
+- `better-work waves` -> explicit wave-based delivery mode for project-scale work
 - `better-work verify` -> verification and evidence bias
 - `better-work unstick` -> recovery and path-switching bias
 - `better-work handoff` -> structured blocker report
 - `better-work review` -> nearby-pattern and risk review
 - `better-work plan` -> lightweight intake/plan mode
 - `better-work execute` -> continue from current plan/state
+- `better-work wave-plan` -> build or refresh project wave sequence and gate logic
+- `better-work wave-map` -> build or refresh project mapping before delivery
+- `better-work wave-status` -> summarize current wave, gate posture, and next-wave readiness
+- `better-work wave-replan` -> replan wave order or boundaries after new information
+- `better-work wave-handoff` -> write a project-level handoff with completed, current, and pending waves
 
 When the surrounding tool supports commands, use the mode that best matches the task. Otherwise apply the same bias implicitly.
 
 If the user explicitly invokes `better-work rounds`, activate `round-based-execution` even if auto-activation would otherwise remain optional.
+
+If the user explicitly invokes `better-work waves`, activate `wave-based-delivery` even if auto-activation would otherwise remain optional.
 
 ## Initiative Levels
 
@@ -202,6 +221,7 @@ If the user explicitly invokes `better-work rounds`, activate `round-based-execu
 | Completing a task | Says "done" | Runs tests/build/curl/manual verification and reports the results |
 | Repeated failure | Keeps tweaking the same path | Stops, reframes, and switches to a fundamentally different approach |
 | Multi-step work | Relies on memory and chat history | Uses a compact task/plan/state skeleton when it adds leverage |
+| Project-scale work | Treats the project like one stream | Uses wave sequencing to decide the current delivery objective before execution |
 
 ## Verification Standard
 
@@ -233,9 +253,51 @@ If a task is structurally complex before the second failure, you may enter `plan
 
 If a task is structurally complex before the second failure, you may also activate `round-based-execution` early instead of waiting for repeated failure.
 
+If a task is project-scale before the second failure, you may also activate `wave-based-delivery` early instead of waiting for the project shape to emerge through rework.
+
 ## Conditional Protocol Modules
 
 Better Work supports conditional execution overlays instead of one always-on heavy protocol.
+
+### `wave-based-delivery`
+
+Use when:
+
+- the task naturally breaks into multiple delivery waves
+- the task spans several modules, services, systems, or environments
+- the task needs mapping before safe execution
+- the task is likely to continue across sessions
+- the task includes several bounded increments rather than one pass
+- integration, migration, or rollout must be staged
+- sequencing decisions materially affect rework cost or delivery risk
+
+Do not use when:
+
+- the task can be completed and verified in one bounded pass
+- there is no meaningful wave dependency
+- the work is locally complex but not actually project-scale
+
+When active:
+
+- work proceeds wave by wave
+- one current wave is selected at a time
+- every wave has explicit scope, dependencies, gate criteria, and next-wave choices
+- project state is kept in `MAP.md`, `WAVE.md`, `DECISIONS.md`, `RISKS.md`, and `wave-state.json`
+- `round-based-execution` may be layered inside the current wave if local execution is still too complex
+
+References:
+
+- `activation-policy.md`
+- `subskills/wave-based-delivery.md`
+- `subskills/agents/wave-planner.md`
+- `subskills/agents/wave-challenger.md`
+- `subskills/agents/wave-worker.md`
+- `subskills/agents/integration-reviewer.md`
+- `templates/MAP.md`
+- `templates/WAVE.md`
+- `templates/DECISIONS.md`
+- `templates/RISKS.md`
+- `templates/wave-state.json`
 
 ### `round-based-execution`
 
@@ -259,6 +321,11 @@ When active:
 - every round must end with a quality gate
 - no gate approval means no automatic next round
 - main-thread reporting should stay compressed
+
+When `wave-based-delivery` is also active:
+
+- round mode controls only the current wave
+- wave mode still owns project sequencing, next-wave choice, and project-level state
 
 References:
 

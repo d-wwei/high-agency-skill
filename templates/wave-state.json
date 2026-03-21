@@ -1,0 +1,16 @@
+{
+  "project_phase": "wave-delivery",
+  "current_wave_id": "",
+  "current_wave_type": "",
+  "current_wave_name": "",
+  "current_wave_gate": "PASS",
+  "round_mode_active": false,
+  "completed_waves": [],
+  "pending_waves": [],
+  "blocked_by": [],
+  "carry_forward": [],
+  "project_risks": [],
+  "next_action": "",
+  "next_candidate_waves": [],
+  "last_updated": ""
+}

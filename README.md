@@ -4,7 +4,7 @@
 
 **🇺🇸 English** | **[🇨🇳 中文](README.zh-CN.md)**
 
-`better-work-skill` is a lightweight operating protocol for coding agents. It does not add new tools or new model weights. It improves how an agent uses the tools it already has:
+`better-work-skill` is a lightweight operating protocol for coding agents. It does not add new tools or model weights. It changes how an agent uses the tools it already has:
 
 - less guessing
 - less premature surrender
@@ -15,154 +15,142 @@
 - better handoff quality when a task is genuinely blocked
 - better continuity for multi-step work
 
-This repo packages four layers into one practical system:
+This repo now packages five layers into one practical system:
 
 - `high-agency` as the behavior core
 - `better-work` as the product and command surface
-- a lightweight GSD-inspired workflow skeleton for longer tasks
-- `round-based-execution` as a conditional complex-task protocol module
+- a lightweight workflow skeleton for multi-step work
+- `wave-based-delivery` as a conditional project-scale orchestration module
+- `round-based-execution` as a conditional local execution control module
 
 ## What Changed
 
-Better Work now has three responsibilities:
+Better Work now handles three different complexity levels:
 
-1. enforce rigorous execution standards
-2. give users a clean command surface
-3. keep multi-step work from losing context
+1. small or medium work with the default protocol
+2. project-scale staged work with `wave-based-delivery`
+3. locally complex execution with `round-based-execution`
 
-For complex tasks, it can also switch into a stricter round-by-round execution mode.
+That means Better Work can stay light for normal tasks while still supporting:
 
-In practice, that means:
+- project mapping before risky execution
+- staged delivery waves
+- durable project state across sessions
+- bounded round-by-round execution inside a wave
+- cleaner integration, migration, hardening, and handoff
 
-- more source reading
-- more log reading
-- more assumption checking
-- more build/test/curl/manual verification
-- fewer shallow fixes
-- lighter but clearer task planning for longer work
+## Complexity Model
 
-## The Workflow Model
+### Default Better Work
 
-Better Work uses a lightweight four-phase model:
+Use this when the task can still be handled as one bounded stream.
 
-1. `intake` -> clarify goal, constraints, and success criteria
-2. `plan` -> break work into verifiable slices
-3. `execute` -> advance one slice at a time and keep evidence current
-4. `closeout` -> end with verified completion or structured handoff
+### Wave-Based Delivery
 
-For tiny tasks, skip the written workflow and just execute rigorously.
+Use this when the task is project-scale and must be sequenced as staged delivery waves.
 
-For larger tasks, use the templates in `templates/`:
+Typical signals:
+
+- multiple systems, modules, or environments
+- mapping before execution is necessary
+- integration or migration must be staged
+- the task will likely span sessions
+- the next objective should come from a larger delivery plan
+
+### Round-Based Execution
+
+Use this when the current execution slice itself needs bounded PDCA loops, local quality gates, and stronger carry-forward control.
+
+Typical signals:
+
+- multiple bounded stages inside the current objective
+- high local execution risk
+- meaningful unknowns before safe execution
+- quality would suffer if verification waits until the end
+
+## Wave vs Round
+
+`wave-based-delivery` and `round-based-execution` are related but not interchangeable.
+
+- `wave` decides what the current delivery unit is
+- `round` decides how the current unit is executed safely
+
+Recommended layering:
+
+- small task -> `better-work`
+- multi-step but still bounded -> `better-work` plus workflow files
+- project-scale task -> `better-work` plus `wave-based-delivery`
+- project-scale task with complex current wave -> `better-work` plus `wave-based-delivery` plus `round-based-execution`
+
+## Workflow Files
+
+For larger tasks, Better Work can use compact written state instead of relying on chat memory alone.
+
+Base workflow files:
 
 - `TASK.md`
 - `PLAN.md`
 - `STATE.md`
 - `HANDOFF.md`
 
-For complex tasks, activate the round protocol and also use:
+Project-scale wave files:
+
+- `MAP.md`
+- `WAVE.md`
+- `DECISIONS.md`
+- `RISKS.md`
+- `wave-state.json`
+
+Local round files:
 
 - `ROUND.md`
 - `round-state.json`
 
-These files are intentionally small. They are execution aids, not long project docs.
+These files are intentionally short. They are execution aids, not long project docs.
 
-## When To Use Workflow Files
+## When To Use Each Layer
 
-Use the workflow templates when the task:
+Stay in plain `/better-work` when:
 
-- spans multiple files or systems
-- is likely to continue across sessions
-- has already started looping or drifting
-- may need a clean handoff
+- the task can likely be completed and verified in one bounded pass
+- there is no meaningful project sequencing decision
+- extra state would be heavier than the work
 
-Skip them when the task is small enough to complete and verify immediately.
+Use `/better-work waves` when:
 
-## Complex Task Enhancement
-
-`round-based-execution` is a subskill of `better-work`, not a standalone peer skill.
-
-Use it when:
-
-- the task needs multiple stages
-- the task spans multiple files, systems, or agents
-- the task contains meaningful unknowns
-- the task may cross sessions
-- verification must happen round by round instead of only at the end
-
-Its role is to convert complex work into bounded rounds with:
-
-- explicit round type selection
-- PDCA per round
-- quality gates per round
-- assumption and evidence tracking
-- structured handoff state
-- safer multi-agent coordination
-
-See:
-
-- [activation-policy.md](activation-policy.md)
-- [subskills/round-based-execution.md](subskills/round-based-execution.md)
-- [templates/ROUND.md](templates/ROUND.md)
-- [templates/round-state.json](templates/round-state.json)
-
-## Auto vs Explicit Activation
-
-There are now two ways to enter round mode:
-
-- automatic activation through `/better-work` when the task is clearly complex enough
-- explicit activation through `/better-work rounds` when you want to force round mode immediately
-
-Use plain `/better-work` when:
-
-- the task might still be small enough for one bounded pass
-- you want Better Work to decide whether extra structure is warranted
+- the task needs staged delivery waves
+- current work should be selected from a larger plan
+- mapping, integration, migration, or rollout must shape the path
 
 Use `/better-work rounds` when:
 
-- the task is already obviously multi-stage
-- you want every step to run with round-level PDCA and quality gates
-- you want structured round state from the start
-- you want to prevent the task from drifting into one long linear thread
+- the current objective needs bounded PDCA loops
+- you want explicit round gates from the start
+- the task is locally complex even if it is not project-scale
 
 ## Commands
 
-Use `/better-work` as the normalized command language in docs and examples. Depending on the tool, that may map to:
+Depending on the tool, commands may map to `$better-work`, `/prompts:better-work`, or a native slash command alias.
 
-- `$better-work`
-- `/prompts:better-work`
-- a native slash command alias
+Core commands:
 
-### `/better-work`
+- `/better-work`
+- `/better-work waves`
+- `/better-work rounds`
+- `/better-work verify`
+- `/better-work unstick`
+- `/better-work handoff`
+- `/better-work review`
+- `/better-work plan`
+- `/better-work execute`
 
-Use this when you want the full protocol.
+Wave-specific commands:
 
-### `/better-work rounds`
-
-Use this when you want to force `round-based-execution` for a complex task instead of relying on auto-activation.
-
-### `/better-work verify`
-
-Bias toward evidence, verification, and closeout quality.
-
-### `/better-work unstick`
-
-Bias toward diagnosis, alternate hypotheses, and path switching.
-
-### `/better-work handoff`
-
-Bias toward structured blocker reports with verified facts and next steps.
-
-### `/better-work review`
-
-Bias toward sibling issues, edge cases, and upstream or downstream impact.
-
-### `/better-work plan`
-
-Bias toward intake, success criteria, task slicing, and whether workflow files are warranted.
-
-### `/better-work execute`
-
-Bias toward continuing from the current task, plan, or state without losing context.
+- `/better-work wave-plan`
+- `/better-work wave-map`
+- `/better-work wave-status`
+- `/better-work wave-replan`
+- `/better-work wave-handoff`
 
 ## Recommended Command Patterns
 
@@ -172,46 +160,45 @@ Bias toward continuing from the current task, plan, or state without losing cont
 /better-work Fix this failing API test and verify the result.
 ```
 
-### Complex Multi-Round Task
+### Project-Scale Delivery
 
 ```text
-/better-work rounds Fix this cross-service production bug in bounded rounds.
+/better-work waves Deliver this multi-service migration in staged waves with explicit gates.
 ```
 
-### Cross-Session Research
+### Complex Local Execution
 
 ```text
-/better-work rounds Research this unfamiliar codebase and leave resumable round state.
+/better-work rounds Fix this cross-service bug in bounded rounds.
 ```
 
-### Medium Feature With Stage Gates
+### Project Replanning
 
 ```text
-/better-work rounds Build this feature in minimal slices with verification after each round.
+/better-work wave-replan Re-sequence this project after these new constraints.
 ```
 
-## Lightweight Templates
+## Templates
 
-The templates are intentionally short so they can survive real usage:
+Useful default files:
 
 - [TASK.md](templates/TASK.md)
 - [PLAN.md](templates/PLAN.md)
 - [STATE.md](templates/STATE.md)
 - [HANDOFF.md](templates/HANDOFF.md)
+
+Useful project-scale files:
+
+- [MAP.md](templates/MAP.md)
+- [WAVE.md](templates/WAVE.md)
+- [DECISIONS.md](templates/DECISIONS.md)
+- [RISKS.md](templates/RISKS.md)
+- [wave-state.json](templates/wave-state.json)
+
+Useful local execution files:
+
 - [ROUND.md](templates/ROUND.md)
 - [round-state.json](templates/round-state.json)
-
-Recommended explicit command for complex tasks:
-
-- `/better-work rounds`
-
-When explicit round mode is active, the most useful state files are:
-
-- `TASK.md` for overall goal and constraints
-- `PLAN.md` for the broader path
-- `STATE.md` for current progress
-- `ROUND.md` for the current bounded round
-- `round-state.json` for machine-friendly persistence and handoff
 
 ## 3-Minute Quick Start
 
@@ -239,6 +226,8 @@ curl -o ~/.codex/skills/better-work/SKILL.md \
 mkdir -p ~/.codex/prompts
 curl -o ~/.codex/prompts/better-work.md \
   https://raw.githubusercontent.com/d-wwei/better-work-skill/main/commands/better-work.md
+curl -o ~/.codex/prompts/better-work-waves.md \
+  https://raw.githubusercontent.com/d-wwei/better-work-skill/main/commands/better-work-waves.md
 curl -o ~/.codex/prompts/better-work-rounds.md \
   https://raw.githubusercontent.com/d-wwei/better-work-skill/main/commands/better-work-rounds.md
 ```
@@ -247,6 +236,12 @@ Then start a conversation and type:
 
 ```text
 $better-work
+```
+
+For explicit wave mode:
+
+```text
+/better-work waves
 ```
 
 For explicit round mode:
@@ -278,34 +273,39 @@ Once active, the agent should:
 - verify before claiming completion
 - switch approaches after repeated failure
 - write compact state only when it adds leverage
-- produce a more useful handoff if the task is genuinely blocked
+- produce a more useful handoff when work is genuinely blocked
+
+When `wave-based-delivery` is active, the agent should also:
+
+- decide one current wave at a time
+- keep project-level state outside the chat
+- map dependencies before risky execution
+- separate project sequencing from local execution control
+- leave a resumable project handoff, not just a local status note
 
 When `round-based-execution` is active, the agent should also:
 
-- select one round type at a time
 - define one primary objective per round
 - enforce PDCA and a quality gate before moving on
-- track assumptions, evidence grade, dependencies, and carry-forward items
+- track assumptions, evidence, dependencies, and carry-forward
 - leave round-level handoff state instead of relying on chat memory
 
 ## Why This Version Is Better
 
-Earlier Better Work was strong on execution discipline but thin on workflow.
+Earlier Better Work was strong on execution discipline but thinner on project-scale orchestration.
 
 This version keeps the original rigor while adding:
 
-- a lightweight planning mode
-- an execution mode for longer tasks
-- compact state templates for work that spans sessions
-- clearer separation between small-task and large-task behavior
+- a lightweight workflow skeleton
+- project-scale wave orchestration
+- bounded local round execution
+- cleaner separation between project sequencing and local execution depth
 
-With `round-based-execution`, Better Work can stay lightweight for small tasks while becoming stricter for long, risky, or multi-round work.
-
-The result is still lightweight, but less likely to lose context on real engineering work.
+The result is still lightweight by default, but much less likely to lose context or sequencing on real engineering work.
 
 ## Repository Notes
 
 - `.gitignore` excludes common local noise like `.DS_Store`
+- `subskills/` contains conditional overlays such as `wave-based-delivery` and `round-based-execution`
 - `evals/trigger-prompts/` contains minimal trigger sanity checks
 - `evals/closeout-cases.md` captures expected end-state behavior for future iterations
-- `subskills/` contains conditional execution overlays such as `round-based-execution`

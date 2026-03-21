@@ -1,6 +1,6 @@
 # Installing Better Work for Codex
 
-Install the professional `better-work` skill via native skill discovery (`~/.codex/skills/`).
+Install `better-work` via native skill discovery (`~/.codex/skills/`).
 
 ## Prerequisites
 
@@ -18,57 +18,40 @@ git clone https://github.com/d-wwei/better-work-skill.git ~/.codex/better-work-s
 mkdir -p ~/.codex/skills
 ln -s ~/.codex/better-work-skill/codex/better-work ~/.codex/skills/better-work
 
-# 3. Install prompt trigger
+# 3. Install prompt triggers
 mkdir -p ~/.codex/prompts
 ln -s ~/.codex/better-work-skill/commands/better-work.md ~/.codex/prompts/better-work.md
-
-# 4. Restart Codex
+ln -s ~/.codex/better-work-skill/commands/better-work-waves.md ~/.codex/prompts/better-work-waves.md
+ln -s ~/.codex/better-work-skill/commands/better-work-rounds.md ~/.codex/prompts/better-work-rounds.md
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-# 1. Clone the repo
 git clone https://github.com/d-wwei/better-work-skill.git "$env:USERPROFILE\.codex\better-work-skill"
-
-# 2. Create skill junction
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills"
 cmd /c mklink /J "$env:USERPROFILE\.codex\skills\better-work" "$env:USERPROFILE\.codex\better-work-skill\codex\better-work"
-
-# 3. Install prompt trigger
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\prompts"
 cmd /c mklink "$env:USERPROFILE\.codex\prompts\better-work.md" "$env:USERPROFILE\.codex\better-work-skill\commands\better-work.md"
-
-# 4. Restart Codex
+cmd /c mklink "$env:USERPROFILE\.codex\prompts\better-work-waves.md" "$env:USERPROFILE\.codex\better-work-skill\commands\better-work-waves.md"
+cmd /c mklink "$env:USERPROFILE\.codex\prompts\better-work-rounds.md" "$env:USERPROFILE\.codex\better-work-skill\commands\better-work-rounds.md"
 ```
 
 ## Verify
 
-Type `$better-work` in a Codex conversation. If the skill is loaded, it should activate.
+Type one of these in a Codex conversation:
 
-Or check directly:
-
-```bash
-# macOS / Linux
-ls ~/.codex/skills/better-work/SKILL.md
-
-# Windows PowerShell
-Test-Path "$env:USERPROFILE\.codex\skills\better-work\SKILL.md"
-```
-
-## Trigger Methods
-
-| Method | Command | Requires |
-|--------|---------|----------|
-| Auto trigger | No action needed, matches by description | SKILL.md |
-| Direct call | Type `$better-work` in conversation | SKILL.md |
-| Manual prompt | Type `/prompts:better-work` in conversation | SKILL.md + prompts/better-work.md |
+- `$better-work`
+- `$better-work waves`
+- `$better-work rounds`
 
 ## Modes
 
-Use the same prompt entry with an optional mode:
+Core:
 
 - `$better-work`
+- `$better-work waves`
+- `$better-work rounds`
 - `$better-work verify`
 - `$better-work unstick`
 - `$better-work handoff`
@@ -76,29 +59,37 @@ Use the same prompt entry with an optional mode:
 - `$better-work plan`
 - `$better-work execute`
 
-`plan` and `execute` are useful for tasks that span multiple files, systems, or sessions.
+Wave-specific:
 
-If your tool supports separate prompt aliases, you can also map:
+- `$better-work wave-plan`
+- `$better-work wave-map`
+- `$better-work wave-status`
+- `$better-work wave-replan`
+- `$better-work wave-handoff`
 
-- `commands/better-work-verify.md`
-- `commands/better-work-unstick.md`
-- `commands/better-work-handoff.md`
-- `commands/better-work-review.md`
-- `commands/better-work-plan.md`
-- `commands/better-work-execute.md`
+## Workflow Files
 
-If you want dedicated prompt aliases on Codex, symlink them individually inside `~/.codex/prompts/`.
-
-## Lightweight Workflow Files
-
-For larger tasks, Better Work can use a compact workflow skeleton instead of relying on chat memory alone:
+Base files:
 
 - `TASK.md`
 - `PLAN.md`
 - `STATE.md`
 - `HANDOFF.md`
 
-Templates for these files live in `templates/` in the repo. Use them only when they add leverage; tiny one-shot tasks should stay lightweight.
+Project-scale files:
+
+- `MAP.md`
+- `WAVE.md`
+- `DECISIONS.md`
+- `RISKS.md`
+- `wave-state.json`
+
+Local execution files:
+
+- `ROUND.md`
+- `round-state.json`
+
+Use only the files that add leverage for the current task.
 
 ## Maintenance
 
@@ -106,7 +97,8 @@ If you modify the skill later, sanity-check:
 
 - trigger behavior with `evals/trigger-prompts/`
 - closeout quality with `evals/closeout-cases.md`
-- that tiny tasks still stay lightweight
+- that wave mode stays project-scale
+- that round mode stays local to the current objective or current wave
 
 ## Update
 
@@ -115,8 +107,6 @@ cd ~/.codex/better-work-skill
 git pull
 ```
 
-The symlink or junction automatically picks up the latest version.
-
 ## Uninstall
 
 ### macOS / Linux
@@ -124,6 +114,8 @@ The symlink or junction automatically picks up the latest version.
 ```bash
 rm ~/.codex/skills/better-work
 rm ~/.codex/prompts/better-work.md
+rm ~/.codex/prompts/better-work-waves.md
+rm ~/.codex/prompts/better-work-rounds.md
 rm -rf ~/.codex/better-work-skill
 ```
 
@@ -132,5 +124,7 @@ rm -rf ~/.codex/better-work-skill
 ```powershell
 Remove-Item "$env:USERPROFILE\.codex\skills\better-work"
 Remove-Item "$env:USERPROFILE\.codex\prompts\better-work.md"
+Remove-Item "$env:USERPROFILE\.codex\prompts\better-work-waves.md"
+Remove-Item "$env:USERPROFILE\.codex\prompts\better-work-rounds.md"
 Remove-Item -Recurse "$env:USERPROFILE\.codex\better-work-skill"
 ```

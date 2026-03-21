@@ -1,0 +1,5 @@
+break this multi-service migration into staged delivery waves
+map the dependency surface and decide the current wave before implementing anything
+this task will span multiple sessions and needs project-level sequencing
+we need separate foundation, integration, and rollout waves for this change
+coordinate this project as waves and decide whether the current wave also needs rounds

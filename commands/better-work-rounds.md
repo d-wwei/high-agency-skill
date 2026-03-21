@@ -5,6 +5,8 @@ argument-hint: "[task description]"
 
 Load the `better-work` skill and explicitly activate `round-based-execution` for the current task.
 
+Use `better-work waves` instead if the task is project-scale and the main problem is sequencing multiple delivery waves rather than controlling one bounded local execution stream.
+
 Prioritize:
 
 - deciding the current round type before doing work

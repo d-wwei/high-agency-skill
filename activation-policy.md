@@ -14,10 +14,32 @@ Overlay a protocol module only when the task shape justifies extra structure.
 |---|---|
 | Small, direct, one-shot task | `better-work` |
 | Multi-step task with light structure needs | `better-work` plus workflow templates |
-| Complex multi-round task | `better-work` plus `round-based-execution` |
+| Complex single-stream task | `better-work` plus `round-based-execution` |
+| Project-scale multi-wave task | `better-work` plus `wave-based-delivery` |
+| Project-scale task with complex current wave | `better-work` plus `wave-based-delivery` plus `round-based-execution` |
 | Complex debugging | `better-work` plus `round-based-execution` plus debugging mode |
 | Complex research | `better-work` plus `round-based-execution` plus research mode |
-| High-risk work | `better-work` plus `round-based-execution` plus stricter verification/risk mode |
+| High-risk project-scale work | `better-work` plus `wave-based-delivery` plus `round-based-execution` plus stricter verification/risk mode |
+
+## Activation Checklist For `wave-based-delivery`
+
+Activate when one or more are true:
+
+- the task naturally breaks into multiple delivery waves
+- the task spans several modules, services, systems, or environments
+- the task needs mapping before safe execution
+- the task is likely to continue across sessions
+- the task contains several bounded increments instead of one pass
+- integration, migration, or rollout must be staged
+- sequencing decisions materially affect cost of rework
+- the main thread needs to coordinate multiple subproblems under one plan
+
+Do not activate when all of these are true:
+
+- the task can be completed and verified in one bounded pass
+- there is no meaningful wave dependency
+- wave state would create more overhead than leverage
+- the problem is locally complex but not actually project-scale
 
 ## Activation Checklist For `round-based-execution`
 
@@ -46,10 +68,24 @@ Use this order:
 
 1. Can the task be completed and verified safely in one pass
    If yes, stay in default `better-work`.
-2. Will the task likely require exploration, planning, execution, and verification as separate bounded slices
+2. Does the task require project-scale decomposition into staged delivery waves
+   If yes, activate `wave-based-delivery`.
+3. If not project-scale, will the task likely require exploration, planning, execution, and verification as separate bounded slices
    If yes, activate `round-based-execution`.
-3. Does the task need an additional domain-specific operating mode
-   If yes, stack that module on top of `round-based-execution` rather than replacing it.
+4. If wave mode is active, does the current wave itself need bounded rounds and stricter local gates
+   If yes, layer `round-based-execution` inside the current wave.
+5. Does the task need an additional domain-specific operating mode
+   If yes, stack that module on top of the current structure rather than replacing it.
+
+## Escalation Into Wave Mode
+
+Even if wave mode was not active at the start, enter it when:
+
+- repeated restarts reveal hidden project structure
+- the task keeps generating new parallel workstreams
+- mapping and sequencing have become more important than local execution
+- integration or migration concerns are shaping the plan early
+- one-shot or round-only execution no longer feels trustworthy at project scale
 
 ## Escalation Into Round Mode
 
@@ -68,3 +104,11 @@ Exit round mode when:
 - remaining work is a small bounded closeout
 - no meaningful round boundary remains
 - the task has reached final synthesis and only final delivery is left
+
+## Deactivation From Wave Mode
+
+Exit wave mode when:
+
+- only one small bounded closeout slice remains
+- no meaningful project-scale sequencing decision remains
+- the project has entered final synthesis and handoff only

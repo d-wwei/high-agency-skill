@@ -35,3 +35,12 @@ Expected:
 - verified facts separated from inferences
 - eliminated possibilities
 - next directions for the next session or engineer
+
+## Case 5: Project-Scale Wave Handoff
+
+Expected:
+
+- project-level rather than purely local handoff
+- completed waves, current wave, and pending waves clearly separated
+- current gate posture recorded
+- project risks and unresolved dependencies carried forward explicitly

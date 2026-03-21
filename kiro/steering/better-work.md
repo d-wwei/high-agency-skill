@@ -1,20 +1,12 @@
 # Better Work
 
-Operate with high-agency execution and lightweight workflow discipline.
+Operate with high-agency execution, project-scale wave sequencing, and bounded local round execution.
 
 ## Rules
 
 1. Exhaust reasonable paths before declaring a blocker.
 2. Investigate before asking the user.
 3. Verify before claiming completion.
-4. Switch approaches after repeated failure.
-5. Use lightweight workflow files only when multi-step work needs written state.
-
-## Workflow Files
-
-- `TASK.md`
-- `PLAN.md`
-- `STATE.md`
-- `HANDOFF.md`
-
-Use them for larger or longer-running work. Keep them short.
+4. Use wave-based delivery for project-scale work.
+5. Use round-based execution for locally complex work.
+6. Use written state only when it adds leverage.

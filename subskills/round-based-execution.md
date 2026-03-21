@@ -22,11 +22,14 @@ It is not a peer skill and not a domain skill. It is a complex-task orchestratio
 
 - Default mode: follow `better-work`.
 - Complex task mode: overlay `round-based-execution`.
+- Project-scale mode: let `wave-based-delivery` own project sequencing and use this module only for the current wave when needed.
 - High-risk work: overlay `round-based-execution` plus stricter verification and risk gating.
 - Debugging-heavy work: overlay `round-based-execution` plus debugging mode.
 - Research-heavy work: overlay `round-based-execution` plus research mode.
 
 The parent skill owns the default posture. This module owns complex-task orchestration.
+
+When `wave-based-delivery` is active, this module becomes the local execution controller for the current wave rather than the owner of the whole project sequence.
 
 ## Design Goals
 
